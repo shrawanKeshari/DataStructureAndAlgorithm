@@ -1,0 +1,110 @@
+Problem Description
+Given an array, arr[] of size N, the task is to find the count of array indices such that removing an element from these indices makes the sum of even-indexed and odd-indexed array elements equal.
+
+
+
+Problem Constraints
+1 <= n <= 105
+-105 <= A[i] <= 105
+
+
+Input Format
+First argument contains an array A of integers of size N
+
+
+Output Format
+Return the count of array indices such that removing an element from these indices makes the sum of even-indexed and odd-indexed array elements equal.
+
+
+
+Example Input
+Input 1:
+A=[2, 1, 6, 4]
+Input 2:
+
+A=[1, 1, 1]
+
+
+Example Output
+Output 1:
+1
+Output 2:
+
+3
+
+
+Example Explanation
+Explanation 1:
+Removing arr[1] from the array modifies arr[] to { 2, 6, 4 } such that, arr[0] + arr[2] = arr[1]. 
+Therefore, the required output is 1. 
+Explanation 2:
+
+Removing arr[0] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1] 
+Removing arr[1] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1] 
+Removing arr[2] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1] 
+Therefore, the required output is 3.
+
+
+
+
+Solution
+
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        int len = A.size();
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        if(len == 1){
+            return 1;
+        }
+        if(len == 2){
+            return 0;
+        }
+
+        for(int i = 2; i < len; i++){
+            int num = A.get(i);
+            A.set(i, num+A.get(i-2));
+        }
+
+        int odd_len = len-2;
+        int even_len = len-1;
+
+        if(len%2 == 0){
+            odd_len = len-1;
+            even_len = len-2;
+        }
+
+        int odd_sum = 0;
+        int even_sum = 0;
+        int count = 0;
+
+        for(int i = 0; i < len; i++){
+            if(i%2 == 0){
+                odd_sum = A.get(even_len) - A.get(i);
+                even_sum =  + A.get(odd_len);
+                if(i >= 1){
+                    odd_sum = odd_sum + A.get(i-1);
+                    even_sum = even_sum - A.get(i-1);
+                }
+                if(i >= 2){
+                    even_sum = even_sum + A.get(i-2);
+                }
+            }else if(i%2 == 1){
+                odd_sum = A.get(even_len);
+                even_sum = A.get(odd_len) - A.get(i);
+                if(i >= 1){
+                    odd_sum = odd_sum - A.get(i-1);
+                    even_sum = even_sum + A.get(i-1);
+                }
+                if(i >= 2){
+                    odd_sum = odd_sum + A.get(i-2);
+                }
+            }
+            if(odd_sum == even_sum){
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
