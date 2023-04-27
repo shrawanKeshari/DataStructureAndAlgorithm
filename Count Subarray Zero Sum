@@ -1,0 +1,85 @@
+Problem Description
+Given an array A of N integers.
+
+Find the count of the subarrays in the array which sums to zero. Since the answer can be very large, return the remainder on dividing the result with 109+7
+
+
+Problem Constraints
+1 <= N <= 105
+-109 <= A[i] <= 109
+
+
+Input Format
+Single argument which is an integer array A.
+
+
+Output Format
+Return an integer.
+
+
+Example Input
+Input 1:
+
+ A = [1, -1, -2, 2]
+Input 2:
+
+ A = [-1, 2, -1]
+
+
+Example Output
+Output 1:
+
+3
+Output 2:
+
+1
+
+
+Example Explanation
+Explanation 1:
+
+ The subarrays with zero sum are [1, -1], [-2, 2] and [1, -1, -2, 2].
+Explanation 2:
+
+ The subarray with zero sum is [-1, 2, -1].
+ 
+ 
+ 
+ 
+
+Solution
+
+public class Solution {
+    public int solve(ArrayList<Integer> A) {
+        int len = A.size();
+        HashMap<Long, Long> map = new HashMap<Long, Long>();
+
+        if(len == 1){
+            return (A.get(0) == 0 ? 1 : 0);
+        }
+
+        long sum = A.get(0);
+        map.put(sum, 1L);
+        long count = 0;
+
+        if(sum == 0){
+            count++;
+        }
+
+        for(int i = 1; i < len; i++){
+            sum = sum + A.get(i);
+            if(sum == 0){
+                count = (count%1000000007+1L)%1000000007;
+            }
+            if(map.containsKey(sum)){
+                long curr = map.get(sum);
+                count = (count%1000000007+curr%1000000007)%1000000007;
+                map.put(sum,curr+1L);
+            }else{
+                map.put(sum,1L);
+            }
+        }
+
+        return (int)(count%1000000007);
+    }
+}
