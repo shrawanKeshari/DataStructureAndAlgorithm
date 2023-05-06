@@ -1,0 +1,110 @@
+Construct a class called Matrix which stores a 2D Array. It should store
+
+The number of rows
+
+The number of columns
+
+The 2D Array itself
+
+Implement the following functionalities inside this class :-
+
+input() -> Reads the input from the user. This method should read the input from the user and populate the entire array. Each row will be in a new line and all the elements in a row will be space-separated.
+
+add(Matrix) -> Returns the sum of two matrices. Assume the matrices provided have the same dimensions.
+
+subtract(Matrix) -> Returns the sum of two matrices. Assume the matrices provided have the same dimensions.
+
+transpose() -> Returns a new matrix containing the transpose of the given original matrix.
+
+print() -> prints the entire matrix row by row. Each row will be in a new line and values in each row should be separated by a single space.
+
+You may define any properties in the class as you see appropriate.
+
+
+
+
+
+Solution
+
+static class Matrix {
+    // Define properties here
+	int rows;
+    int columns;
+	int[][] array;
+	// Define constructor here
+	public Matrix(int rows, int columns){
+        this.rows = rows;
+        this.columns = columns;
+        this.array = new int[rows][columns];
+    }
+	
+	void input(Scanner sc){
+	    // Use the Scanner object passed as argument for taking input and not a new Scanner object
+		// Complete the function
+		// sc = new Scanner(System.in);
+        for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                this.array[i][j] = sc.nextInt();
+            }
+            // sc.nextLine();
+        }
+	}
+	
+	Matrix add(Matrix x){
+		// Complete the function
+        Matrix add = new Matrix(this.rows, this.columns);
+		for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                add.array[i][j] = this.array[i][j]+x.array[i][j];
+            }
+        }
+
+        return add;
+	}
+	
+	Matrix subtract(Matrix x){
+		// Complete the function
+        Matrix sub = new Matrix(this.rows, this.columns);
+		for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                sub.array[i][j] = this.array[i][j]-x.array[i][j];
+            }
+        }
+
+        return sub;
+	}
+		
+	Matrix transpose(){
+		// Complete the function
+        Matrix transpose = new Matrix(this.columns, this.rows);
+
+        for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                transpose.array[j][i] = this.array[i][j];
+            }
+        }
+
+        return transpose;
+	}
+	
+	void print(){
+		// Complete the function
+		for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++){
+                System.out.print(this.array[i][j] + " ");
+            }
+            System.out.println();
+        }
+	}
+}
+
+/*
+    Matrix a = new Matrix(10, 5)  // 10 rows, 5 columns
+	a.input() 
+	Matrix b = new Matrix(10, 5)  // 10 rows, 5 columns
+	b.input()
+    Matrix c1 = a.add(b)
+    Matrix c2 = a.subtract(b)
+    Matrix c3 = a.transpose()
+    a.print()
+*/
