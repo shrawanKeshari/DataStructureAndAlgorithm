@@ -68,11 +68,12 @@ public class Solution {
             return 0;
         }
 
-        int mid = solve(A-1,B/2);
-        if(B%2 == 0){
-            return mid;
+        long mid = (long) Math.pow(2, A-1);
+        mid = mid/2L;
+        if(B < mid){
+            return solve(A-1, B);
         }
 
-        return 1-mid;
+        return solve(A-1, B - mid)^1;
     }
 }
