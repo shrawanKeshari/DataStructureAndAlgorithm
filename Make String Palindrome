@@ -1,0 +1,52 @@
+Problem Description:
+Possible to make string palindrom or not.
+
+Input 1: aabb, answer is 1 because possible is abba
+Input 2: aecbb, ans is 0 because it's not possible to arrange.
+
+
+
+Solution
+
+public class Solution {
+    public int solve(String A) {
+        int len = A.length();
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        
+        for(int i = 0; i < len; i++){
+            char curr = A.charAt(i);
+            if(map.containsKey(curr)){
+                int count = map.get(curr);
+                map.put(curr, count+1);
+            }else{
+                map.put(curr, 1);
+            }
+        }
+        
+        int num_odd = 0;
+        int num_even = 0;
+        
+        for(Map.Entry<Character, Integer> entry : map.entrySet()){
+            int val = entry.getValue();
+            if(val%2 == 0){
+                num_even++;
+            }else{
+                num_odd++;
+            }
+        }
+        
+        if(len%2 == 0){
+            if(num_odd > 0){
+                return 0;
+            }else{
+                return 1;
+            }
+        }
+        
+        if(num_odd == 1){
+            return 1;
+        }
+        
+        return 0;
+    }
+}
