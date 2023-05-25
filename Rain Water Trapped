@@ -49,6 +49,9 @@ No water is trapped.
 
 Solution
 
+Example: A = [4,2,5,7,4,2,3,6,8,2,3]
+
+Below: TC - O(n) and SC - O(n)
 public class Solution {
     // DO NOT MODIFY THE LIST. IT IS READ ONLY
     public int trap(final List<Integer> A) {
@@ -78,6 +81,41 @@ public class Solution {
 
         for(int i = 0; i < len; i++){
             ans = ans + Math.min(left[i], right[i])-A.get(i);
+        }
+
+        return ans;
+    }
+}
+
+
+Below: TC - O(n) and SC - O(1)
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int trap(final List<Integer> A) {
+        int len = A.size();
+        
+        int l = 0, r = len-1;
+        int lmax = Integer.MIN_VALUE, rmax = Integer.MIN_VALUE;
+        int ans = 0;
+
+        while(l <= r){
+            int l_val = A.get(l);
+            int r_val = A.get(r);
+            if(l_val <= r_val){
+                if(l_val >= lmax){
+                    lmax = l_val;
+                }else{
+                    ans = ans + lmax - l_val;
+                }
+                l++;
+            }else{
+                if(r_val >= rmax){
+                    rmax = r_val;
+                }else{
+                    ans = ans + rmax - r_val;
+                }
+                r--;
+            }
         }
 
         return ans;
