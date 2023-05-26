@@ -1,0 +1,98 @@
+Problem Description
+Given a row-wise and column-wise sorted matrix A of size N * M.
+Return the maximum non-empty submatrix sum of this matrix.
+
+
+Problem Constraints
+1 <= N, M <= 1000
+-109 <= A[i][j] <= 109
+
+
+Input Format
+The first argument is a 2D integer array A.
+
+
+Output Format
+Return a single integer that is the maximum non-empty submatrix sum of this matrix.
+
+
+Example Input
+Input 1:-
+    -5 -4 -3
+A = -1  2  3
+     2  2  4
+Input 2:-
+    1 2 3
+A = 4 5 6
+    7 8 9
+
+
+Example Output
+Output 1:-
+12
+Output 2:-
+45
+
+
+Example Explanation
+Expanation 1:-
+The submatrix with max sum is 
+-1 2 3
+ 2 2 4
+ Sum is 12.
+Explanation 2:-
+The largest submatrix with max sum is 
+1 2 3
+4 5 6
+7 8 9
+The sum is 45.
+
+
+
+
+
+Solution
+
+public class Solution {
+    public Long solve(ArrayList<ArrayList<Integer>> A) {
+        int row = A.size();
+        int col = A.get(0).size();
+
+        long[][] psum = new long[row][col];
+
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                psum[i][j] = A.get(i).get(j);
+                if(i>0 && j>0){
+                    psum[i][j] = psum[i][j] - psum[i-1][j-1];
+                }
+                if(i>0){
+                    psum[i][j] = psum[i][j] + psum[i-1][j];
+                }
+                if(j>0){
+                    psum[i][j] = psum[i][j] + psum[i][j-1];
+                }
+            }
+        }
+
+        long ans = Long.MIN_VALUE;
+
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                long curr_sum = psum[row-1][col-1];
+                if(i>0){
+                    curr_sum = curr_sum - psum[i-1][col-1];
+                }
+                if(j>0){
+                    curr_sum = curr_sum - psum[row-1][j-1];
+                }
+                if(i>0 && j>0){
+                    curr_sum = curr_sum + psum[i-1][j-1];
+                }
+                ans = Math.max(ans, curr_sum);
+            }
+        }
+
+        return ans;
+    }
+}
