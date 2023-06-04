@@ -72,11 +72,27 @@ public class Solution {
         }
 
         if(i == -1){
-            Collections.sort(A);
+            int start = 0;
+            int end = len-1;
+            while (start < end) {
+                int temp2 = A.get(start);
+                A.set(start, A.get(end));
+                A.set(end, temp2);
+                start++;
+                end--;
+            }
         }else{
+            int j = len-1;
+            while (j > i) {
+                if (A.get(j) > A.get(i)) {
+                    break;
+                }
+                j--;
+            }
+
             int temp1 = A.get(i);
-            A.set(i, A.get(i+1));
-            A.set(i+1, temp1);
+            A.set(i, A.get(j));
+            A.set(j, temp1);
             
             ArrayList<Integer> temp = new ArrayList<Integer>();
 
@@ -84,10 +100,14 @@ public class Solution {
                 temp.add(A.get(index));
             }
 
-            Collections.sort(temp);
-
-            for(int index = i+1; index < len; index++){
-                A.set(index, temp.get(index-(i+1)));
+            int start = i+1;
+            int end = len-1;
+            while (start < end) {
+                int temp2 = A.get(start);
+                A.set(start, A.get(end));
+                A.set(end, temp2);
+                start++;
+                end--;
             }
         }
 
